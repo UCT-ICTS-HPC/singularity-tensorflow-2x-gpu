@@ -1,0 +1,19 @@
+#%Module######################################################################
+##
+##     Tensorflow 
+##
+proc ModulesHelp { } {
+        puts stderr "Sets up the paths you need to run TensorFlow Container"
+}
+
+set sys        [uname sysname]
+set base       
+set basepath    $base
+
+set-alias tensorboard "singularity exec --nv $basepath/tensorflow/tensorflow-gpu-py3.sif tensorboard $@"
+set-alias python "singularity exec --nv $basepath/tensorflow/tensorflow-gpu-py3.sif python $@"
+set modname     [module-info name]
+set modmode     [module-info mode]
+
+prepend-path PATH $basepath
+
