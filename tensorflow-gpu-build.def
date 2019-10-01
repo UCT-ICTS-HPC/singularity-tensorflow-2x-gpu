@@ -68,7 +68,7 @@ Include: software-properties-common
     rm ${ML_REPO_FILE}
 
 %help 
-    This is a TensorFlow 1.14 container. It includes the NVIDIA CUDA toolkit but not the NVIDIA CUDA drivers. 
+    This is a TensorFlow 2.0 container. It includes the NVIDIA CUDA toolkit but not the NVIDIA CUDA drivers. 
 
 
 %test
