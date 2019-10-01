@@ -38,7 +38,7 @@ Include: software-properties-common
     declare -r CUDA_FILE=cuda_10.0.130_410.48_linux
     declare -r NVIDIA_DEV_URL=https://developer.download.nvidia.com/compute
     declare -r ML_REPO_FILE=nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
-    declare -r TF_VER=2.0
+    declare -r TF_VER=2.0.0b1
 
     # Update Ubuntu Cache and begin install 
     apt-add-repository universe
