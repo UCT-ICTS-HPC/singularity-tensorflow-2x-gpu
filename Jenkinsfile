@@ -1,5 +1,5 @@
 // Defining Pipeline 
-node('gpu') {
+node('p100') {
     stage ('Checkout code') {checkout scm}
          
     stage('Build') {
