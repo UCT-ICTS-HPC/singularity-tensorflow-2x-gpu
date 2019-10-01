@@ -38,6 +38,7 @@ Include: software-properties-common
     declare -r CUDA_FILE=cuda_10.0.130_410.48_linux
     declare -r NVIDIA_DEV_URL=https://developer.download.nvidia.com/compute
     declare -r ML_REPO_FILE=nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+    declare -r TF_VER=2.0
 
     # Update Ubuntu Cache and begin install 
     apt-add-repository universe
@@ -57,7 +58,7 @@ Include: software-properties-common
     apt install -y libc-ares-dev libcudnn7 libnccl2 libcudnn7-dev  
 
     # Tensorflow Install 
-    pip3 install tensorflow-gpu==2.0
+    pip3 install tensorflow-gpu==${TF_VER}
 
     # Clean Up 
     apt clean
