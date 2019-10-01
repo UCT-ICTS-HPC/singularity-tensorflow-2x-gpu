@@ -5,7 +5,7 @@ Include: software-properties-common
 
 %labels
 
-    APPLICATION_NAME Nvidia CUDA + TensorFlow 1.14.0
+    APPLICATION_NAME Nvidia CUDA + TensorFlow 2.0
     OS_VERSION 18.04 + 10.0 
     APPLICATION_URL https://developer.nvidia.com/cuda-zone
 
@@ -57,7 +57,7 @@ Include: software-properties-common
     apt install -y libc-ares-dev libcudnn7 libnccl2 libcudnn7-dev  
 
     # Tensorflow Install 
-    pip3 install tensorflow-gpu==1.14.0
+    pip3 install tensorflow-gpu==2.0
 
     # Clean Up 
     apt clean
