@@ -27,8 +27,9 @@ node('p100') {
 
     stage('Delivery to HPC Software Repository') {
       // Make application available to HPC users 
-      sh "cp container/$CONTAINER_NAME-$BUILD_NUMBER /opt/exp_soft/singularity-containers/tensorflow"
-      sh "ln -sf $SW_LOCATION/$CONTAINER_NAME-$BUILD_NUMBER tensorflow-2x-gpu-latest.sif"
-    }
-       
+      sh "cp container/$CONTAINER_NAME-$BUILD_NUMBER $SW_LOCATION"
+      dir('/opt/exp_soft/singularity-containers/tensorflow') {
+         sh "ln -sf $SW_LOCATION/$CONTAINER_NAME-$BUILD_NUMBER tensorflow-2x-gpu.sif-latest"
+      }
+    }   
 }
