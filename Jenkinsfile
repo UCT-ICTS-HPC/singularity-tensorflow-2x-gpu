@@ -2,6 +2,7 @@
 env.SW_LOCATION = '/opt/exp_soft/singularity-containers/tensorflow'
 env.CONTAINER_NAME = 'tensorflow-gpu.sif'
 env.CONTAINER_DEF = 'tensorflow-gpu-build.def'
+env.CONTAINER_DIR = 'container'
 env.TF_VER = 'v2.x'
 
 node('p100') {
@@ -9,23 +10,23 @@ node('p100') {
     stage ('Checkout code') {checkout scm}
          
     stage('Build') {
-       if (fileExists('container')) {
+       if (fileExists(CONTAINER_DIR)) {
              echo 'Directory exists'
              } else {
-             sh "mkdir container" 
+             sh "mkdir $CONTAINER_DIR" 
            }
        // Running with --notest as 'singularity build ' does not feature the --nv for GPU and executes %test scriptlet during the build.
-       sh "sudo /usr/bin/singularity build --notest container/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER $CONTAINER_DEF"
+       sh "sudo /usr/bin/singularity build --notest $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER $CONTAINER_DEF"
      }
 
     stage('Container Cleanup') {
        // Cleaning up unwanted files from the container.
-       sh "/usr/bin/singularity cache clean --name container/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER"
+       sh "/usr/bin/singularity cache clean --name $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER"
      }
 
     stage('Running Tests') {
        // Execute the %test scriptlet.
-       sh "/usr/bin/singularity test --nv container/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER "
+       sh "/usr/bin/singularity test --nv $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER "
      }
 
     stage('Deliver HPC software to repository') {
