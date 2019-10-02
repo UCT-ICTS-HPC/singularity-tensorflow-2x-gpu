@@ -1,6 +1,8 @@
 // Defining Pipeline 
 env.SW_LOCATION = '/opt/exp_soft/singularity-containers/tensorflow'
 env.CONTAINER_NAME = 'tensorflow-2x-gpu.sif'
+env.CONTAINER_DEF = 'tensorflow-gpu-build.def'
+
 node('p100') {
 
     stage ('Checkout code') {checkout scm}
@@ -12,7 +14,7 @@ node('p100') {
              sh "mkdir container" 
            }
        // Running with --notest as 'singularity build ' does not feature the --nv for GPU and executes %test scriptlet during the build.
-       sh "sudo /usr/bin/singularity build --notest container/$CONTAINER_NAME-$BUILD_NUMBER tensorflow-gpu-build.def"
+       sh "sudo /usr/bin/singularity build --notest container/$CONTAINER_NAME-$BUILD_NUMBER $CONTAINER_DEF"
      }
 
     stage('Container Cleanup') {
@@ -31,5 +33,6 @@ node('p100') {
       dir('/opt/exp_soft/singularity-containers/tensorflow') {
          sh "ln -sf $SW_LOCATION/$CONTAINER_NAME-$BUILD_NUMBER tensorflow-2x-gpu.sif-latest"
       }
+      echo "Generating software environment module file"
     }   
 }
