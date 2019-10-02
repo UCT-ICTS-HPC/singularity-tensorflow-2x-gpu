@@ -10,24 +10,24 @@ node('p100') {
     stage ('Checkout code') {checkout scm}
          
     stage('Build') {
-       if (fileExists(CONTAINER_DIR)) {
+      if (fileExists(CONTAINER_DIR)) {
              echo 'Directory exists'
              } else {
              sh "mkdir $CONTAINER_DIR" 
            }
-       // Running with --notest as 'singularity build ' does not feature the --nv for GPU and executes %test scriptlet during the build.
-       sh "sudo /usr/bin/singularity build --notest $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER $CONTAINER_DEF"
-     }
+      // Running with --notest as 'singularity build ' does not feature the --nv for GPU and executes %test scriptlet during the build.
+      sh "sudo /usr/bin/singularity build --notest $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER $CONTAINER_DEF"
+    }
 
     stage('Container Cleanup') {
-       // Cleaning up unwanted files from the container.
-       sh "/usr/bin/singularity cache clean --name $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER"
-     }
+      // Cleaning up unwanted files from the container.
+      sh "/usr/bin/singularity cache clean --name $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER"
+    }
 
     stage('Running Tests') {
-       // Execute the %test scriptlet.
-       sh "/usr/bin/singularity test --nv $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER "
-     }
+      // Execute the %test scriptlet.
+      sh "/usr/bin/singularity test --nv $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER "
+    }
 
     stage('Deliver HPC software to repository') {
       // Make application available to HPC users 
