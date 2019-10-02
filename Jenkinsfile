@@ -1,7 +1,8 @@
 // Defining Pipeline 
 env.SW_LOCATION = '/opt/exp_soft/singularity-containers/tensorflow'
-env.CONTAINER_NAME = 'tensorflow-2x-gpu.sif'
+env.CONTAINER_NAME = 'tensorflow-gpu.sif'
 env.CONTAINER_DEF = 'tensorflow-gpu-build.def'
+env.TF_VER = 'v2.x'
 
 node('p100') {
 
@@ -14,24 +15,24 @@ node('p100') {
              sh "mkdir container" 
            }
        // Running with --notest as 'singularity build ' does not feature the --nv for GPU and executes %test scriptlet during the build.
-       sh "sudo /usr/bin/singularity build --notest container/$CONTAINER_NAME-$BUILD_NUMBER $CONTAINER_DEF"
+       sh "sudo /usr/bin/singularity build --notest container/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER $CONTAINER_DEF"
      }
 
     stage('Container Cleanup') {
        // Cleaning up unwanted files from the container.
-       sh "/usr/bin/singularity cache clean --name container/$CONTAINER_NAME-$BUILD_NUMBER"
+       sh "/usr/bin/singularity cache clean --name container/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER"
      }
 
     stage('Running Tests') {
        // Execute the %test scriptlet.
-       sh "/usr/bin/singularity test --nv container/$CONTAINER_NAME-$BUILD_NUMBER "
+       sh "/usr/bin/singularity test --nv container/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER "
      }
 
-    stage('Delivery to HPC Software Repository') {
+    stage('Deliver HPC software to repository') {
       // Make application available to HPC users 
-      sh "cp container/$CONTAINER_NAME-$BUILD_NUMBER $SW_LOCATION"
+      sh "cp container/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER $SW_LOCATION"
       dir('/opt/exp_soft/singularity-containers/tensorflow') {
-         sh "ln -sf $SW_LOCATION/$CONTAINER_NAME-$BUILD_NUMBER tensorflow-2x-gpu.sif-latest"
+         sh "ln -sf $SW_LOCATION/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER tensorflow-$TF_VER-gpu.sif"
       }
       echo "Generating software environment module file"
     }   
