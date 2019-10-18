@@ -43,7 +43,7 @@ Include: software-properties-common
     # Update Ubuntu Cache and begin install 
     apt-add-repository universe
     apt update -y
-    apt install -y build-essential wget python3-pip apt-utils curl
+    apt install -y build-essential wget python3-pip apt-utils curl expect
     
     # Download NVIDIA Cuda and begin install 
     wget -nv https://developer.nvidia.com/compute/cuda/10.0/Prod/local_installers/${CUDA_FILE}
