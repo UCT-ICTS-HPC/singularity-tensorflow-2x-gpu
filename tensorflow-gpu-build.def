@@ -40,12 +40,12 @@ Include: software-properties-common
     declare -r ML_REPO_FILE=nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
     declare -r TF_VER=2.0.0b1
 
-    # Update Ubuntu Cache and begin install 
+    # Update Ubuntu Cache and begin install
     apt-add-repository universe
     apt update -y
     apt install -y build-essential wget python3-pip apt-utils curl expect
     
-    # Download NVIDIA Cuda and begin install 
+    # Download NVIDIA Cuda and begin install
     wget -nv https://developer.nvidia.com/compute/cuda/10.0/Prod/local_installers/${CUDA_FILE}
     chmod +x ${CUDA_FILE}
     ./${CUDA_FILE} --toolkit --silent --no-drm --no-man-page --override
@@ -73,7 +73,7 @@ Include: software-properties-common
 
 %test
     # The following tests will be used to test the functionality of the container build
-    # and the results fed into the CI Jenkins platform. 
+    # and the results fed into the CI Jenkins platform
     set -e 
     nvidia-smi -L
     python3 -W ignore -c 'import tensorflow as tf'
