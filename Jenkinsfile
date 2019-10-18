@@ -6,7 +6,7 @@ env.CONTAINER_DIR = 'container'
 env.TF_VER = 'v2.x'
 env.SINGULARITY_BIN = '/usr/bin/singularity'
 
-// Define the Pipeline
+// Define the Software Pipeline
 node('p100') {
 
     stage ('Checkout code') {checkout scm}
@@ -31,6 +31,11 @@ node('p100') {
       sh "$SINGULARITY_BIN test --nv $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER "
     }
 
+    stage('Signing Container') {
+      // Get Jenkins to sign the container after it has been built and tests passed. 
+      sh "$SINGULARITY_BIN sign "
+    }
+
     stage('Deliver HPC software to repository') {
       // Make application available to HPC users 
       sh "cp $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER $SW_LOCATION"
@@ -38,5 +43,5 @@ node('p100') {
          sh "ln -sf $SW_LOCATION/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER tensorflow-$TF_VER-gpu.sif"
       }
       echo "Generating software environment module file"
-    }   
+    }
 }
