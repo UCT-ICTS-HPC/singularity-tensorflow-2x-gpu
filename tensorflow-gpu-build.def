@@ -58,7 +58,7 @@ Include: software-properties-common
     apt install -y libc-ares-dev libcudnn7 libnccl2 libcudnn7-dev  
 
     # Tensorflow Install 
-    pip3 install tensorflow-gpu==${TF_VER} hyperopt
+    pip3 install tensorflow-gpu==${TF_VER} hyperopt virtualenv
 
     # Clean Up 
     apt clean
