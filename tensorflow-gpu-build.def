@@ -77,6 +77,7 @@ Include: software-properties-common
     set -e 
     nvidia-smi -L
     python3 -W ignore -c 'import tensorflow as tf'
+    python3 -W ignore -c 'import hyperopt'
     if [ $? -eq 0 ]
     then
     echo "Tests Passed" 
