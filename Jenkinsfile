@@ -30,12 +30,7 @@ node('p100') {
       // Execute the %test scriptlet.
       sh "$SINGULARITY_BIN test --nv $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER "
     }
-
-    stage('Signing Container') {
-      // Get Jenkins to sign the container after it has been built and tests passed. 
-      sh "$SINGULARITY_BIN sign "
-    }
-
+    
     stage('Deliver HPC software to repository') {
       // Make application available to HPC users 
       sh "cp $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER $SW_LOCATION"
