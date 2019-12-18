@@ -23,7 +23,7 @@ node('p100') {
 
     stage('Container Cleanup') {
       // Cleaning up unwanted files from the container.
-      sh "$SINGULARITY_BIN cache clean --name $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER"
+      sh "$SINGULARITY_BIN cache clean -f --name $CONTAINER_DIR/$TF_VER-$CONTAINER_NAME-$BUILD_NUMBER"
     }
 
     stage('Running Tests') {
